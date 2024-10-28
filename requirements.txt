@@ -4,3 +4,8 @@ scikit-learn
 light-gbm
 xgboost
 matplotlib
+seaborn
+catboost
+Jinja2
+missingno
+imblearn
