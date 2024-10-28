@@ -16,14 +16,26 @@ def myFeval(preds, xgbtrain):
     return 'myFeval',score
 
 def main():
-    preprocess_data_path = Path(__file__).parent / 'preprocess_data'
+    preprocess_data_path = Path(__file__).parent / 'split_data'
+    results_dir = Path(__file__).parent / 'results' / datetime.now().strftime('%Y%m%d_%H%M%S')
+    results_dir.mkdir(parents=True, exist_ok=True)  
     if not preprocess_data_path.exists():
         print('preprocess_data does not exist. run preprocess.py first')
         return
     # 加载预处理的数据集
-    X_train_ = pd.read_csv(preprocess_data_path / 'X_train.csv')
-    X_test_ = pd.read_csv(preprocess_data_path / 'X_test.csv')
-    y_train_ = pd.read_csv(preprocess_data_path / 'y_train.csv')
+    X_train_ = pd.read_csv(preprocess_data_path / 'xy_train_filtered_feature_0.005_resampled_adasyn.csv')
+    y_train_ = X_train_['happiness']
+    X_train_ = X_train_.drop(columns=['happiness'], axis=1)
+    X_train_ = X_train_.select_dtypes(include=[np.number])
+
+
+    X_test_ = pd.read_csv(preprocess_data_path / 'xy_test_filtered_feature0.005.csv')
+    y_test_ = X_test_['happiness']
+    X_test_ = X_test_.drop(columns=['happiness'], axis=1)
+    # X_test_ = X_test_.select_dtypes(include=[np.number])
+    X_test_ = X_test_[X_train_.columns]
+    # y_train_ = pd.read_csv(preprocess_data_path / 'y_train.csv')
+    
     target_column = 'happiness'
     X_train = np.array(X_train_)
     y_train = np.array(y_train_)
@@ -44,12 +56,15 @@ def main():
         
         watchlist = [(trn_data, 'train'), (val_data, 'valid_data')]
         clf = xgb.train(dtrain=trn_data, num_boost_round=20000, evals=watchlist, early_stopping_rounds=200, verbose_eval=100, params=xgb_params,feval = myFeval)
+        model_path = results_dir / f'xgb_model_{fold_}.model'
+        clf.save_model(str(model_path))
         # oof_xgb[val_idx] = clf.predict(xgb.DMatrix(X_train[val_idx]), ntree_limit=clf.num_boost_rounds)
         oof_xgb[val_idx] = clf.predict(xgb.DMatrix(X_train[val_idx]))
         # predictions_xgb += clf.predict(xgb.DMatrix(X_test), ntree_limit=clf.num_boost_rounds) / folds.n_splits
         predictions_xgb += clf.predict(xgb.DMatrix(X_test)) / folds.n_splits
         
     print("CV score: {:<8.8f}".format(mean_squared_error(oof_xgb, y_train_)))
+    print("test CV score: {:<8.8f}".format(mean_squared_error(predictions_xgb, y_test_)))
 
 
 if __name__ == '__main__':
