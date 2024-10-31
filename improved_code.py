@@ -1,4 +1,4 @@
-!pip install xgboost lightgbm catboost scikit-learn optuna tqdm
+# !pip install xgboost lightgbm catboost scikit-learn optuna tqdm
 import warnings
 warnings.filterwarnings('ignore', category=FutureWarning)
 import pandas as pd
@@ -106,17 +106,18 @@ def train_and_evaluate(X_train, y_train, X_test, y_test, dataset_name):
     print(f'{dataset_name} - Ridge Final Test RMSE: {final_rmse}')
 
 # 我们经过处理的10个数据集对
+process_data_dir = 'dataset/processed_data'
 train_test_pairs = [
-    ('/content/drive/MyDrive/Colab Notebooks/split_data/xy_train.csv', '/content/drive/MyDrive/Colab Notebooks/split_data/xy_test.csv'),
-    ('/content/drive/MyDrive/Colab Notebooks/split_data/xy_train_filtered_feature.csv', '/content/drive/MyDrive/Colab Notebooks/split_data/xy_test_filtered_feature.csv'),
-    ('/content/drive/MyDrive/Colab Notebooks/split_data/xy_train_filtered_feature0.01.csv', '/content/drive/MyDrive/Colab Notebooks/split_data/xy_test_filtered_feature0.01.csv'),
-    ('/content/drive/MyDrive/Colab Notebooks/split_data/xy_train_filtered_feature0.005.csv', '/content/drive/MyDrive/Colab Notebooks/split_data/xy_test_filtered_feature0.005.csv'),
-    ('/content/drive/MyDrive/Colab Notebooks/split_data/xy_train_resampled_smote.csv', '/content/drive/MyDrive/Colab Notebooks/split_data/xy_test.csv'),
-    ('/content/drive/MyDrive/Colab Notebooks/split_data/xy_train_resampled_adasyn.csv', '/content/drive/MyDrive/Colab Notebooks/split_data/xy_test.csv'),
-    ('/content/drive/MyDrive/Colab Notebooks/split_data/xy_train_filtered_feature_resampled_smote.csv', '/content/drive/MyDrive/Colab Notebooks/split_data/xy_test_filtered_feature.csv'),
-    ('/content/drive/MyDrive/Colab Notebooks/split_data/xy_train_filtered_feature_resampled_adasyn.csv', '/content/drive/MyDrive/Colab Notebooks/split_data/xy_test_filtered_feature.csv'),
-    ('/content/drive/MyDrive/Colab Notebooks/split_data/xy_train_filtered_feature_0.005_resampled_smote.csv', '/content/drive/MyDrive/Colab Notebooks/split_data/xy_test_filtered_feature0.005.csv'),
-    ('/content/drive/MyDrive/Colab Notebooks/split_data/xy_train_filtered_feature_0.005_resampled_adasyn.csv', '/content/drive/MyDrive/Colab Notebooks/split_data/xy_test_filtered_feature0.005.csv')
+    (f'{process_data_dir}/xy_train.csv', f'{process_data_dir}/xy_test.csv'),
+    (f'{process_data_dir}/xy_train_filtered_feature_0.05.csv', f'{process_data_dir}/xy_test_filtered_feature_0.05.csv'),
+    (f'{process_data_dir}/xy_train_filtered_feature_0.01.csv', f'{process_data_dir}/xy_test_filtered_feature_0.01.csv'),
+    (f'{process_data_dir}/xy_train_filtered_feature_0.005.csv', f'{process_data_dir}/xy_test_filtered_feature_0.005.csv'),
+    (f'{process_data_dir}/xy_train_smote_oversample.csv', f'{process_data_dir}/xy_test.csv'),
+    (f'{process_data_dir}/xy_train_adasyn_oversample.csv', f'{process_data_dir}/xy_test.csv'),
+    (f'{process_data_dir}/xy_train_filtered_feature_0.01_smote_oversample.csv', f'{process_data_dir}/xy_test_filtered_feature_0.01.csv'),
+    (f'{process_data_dir}/xy_train_filtered_feature_0.01_adasyn_oversample.csv', f'{process_data_dir}/xy_test_filtered_feature_0.01.csv'),
+    (f'{process_data_dir}/xy_train_filtered_feature_0.005_smote_oversample.csv', f'{process_data_dir}/xy_test_filtered_feature_0.005.csv'),
+    (f'{process_data_dir}/xy_train_filtered_feature_0.005_adasyn_oversample.csv', f'{process_data_dir}/xy_test_filtered_feature_0.005.csv')
 ]
 
 # 处理数据集，得到训练集和测试集，开始训练
