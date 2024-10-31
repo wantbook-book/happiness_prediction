@@ -16,20 +16,20 @@ def myFeval(preds, xgbtrain):
     return 'myFeval',score
 
 def main():
-    preprocess_data_path = Path(__file__).parent / 'split_data'
+    preprocess_data_path = Path(__file__).parent / 'no_preprocess_data'
     results_dir = Path(__file__).parent / 'results' / datetime.now().strftime('%Y%m%d_%H%M%S')
     results_dir.mkdir(parents=True, exist_ok=True)  
     if not preprocess_data_path.exists():
         print('preprocess_data does not exist. run preprocess.py first')
         return
     # 加载预处理的数据集
-    X_train_ = pd.read_csv(preprocess_data_path / 'xy_train_filtered_feature_0.005_resampled_adasyn.csv')
+    X_train_ = pd.read_csv(preprocess_data_path / 'xy_train.csv')
     y_train_ = X_train_['happiness']
     X_train_ = X_train_.drop(columns=['happiness'], axis=1)
     X_train_ = X_train_.select_dtypes(include=[np.number])
 
 
-    X_test_ = pd.read_csv(preprocess_data_path / 'xy_test_filtered_feature0.005.csv')
+    X_test_ = pd.read_csv(preprocess_data_path / 'xy_test.csv')
     y_test_ = X_test_['happiness']
     X_test_ = X_test_.drop(columns=['happiness'], axis=1)
     # X_test_ = X_test_.select_dtypes(include=[np.number])
