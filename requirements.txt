@@ -9,3 +9,4 @@ catboost
 Jinja2
 missingno
 imblearn
+catboost
