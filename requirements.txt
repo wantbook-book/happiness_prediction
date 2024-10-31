@@ -10,3 +10,4 @@ Jinja2
 missingno
 imblearn
 catboost
+optuna
