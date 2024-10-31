@@ -1,5 +1,8 @@
+catboost_info
 results/
-preprocess_data
+dataset/preprocess_data
+dataset/no_process_data
+dataset/preprocess_data_test
 crawler/output
 venv/
 test/
