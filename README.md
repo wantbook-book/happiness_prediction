@@ -36,9 +36,9 @@ pip install -r requirements.txt
     ```bash
     python baseline_and_advanced_code.py
     python improved_code.py
-    
-    模型训练及评测代码：”基线及进阶方法代码.py“和”优化后方法代码.py“分别为基线及五种进阶方法和最终优化方法的代码，可直接于colab平台运行，或安装好相关包后于本机运行。
     ```
+    - `baseline_and_advanced_code.py`: 基线及五种进阶方法的代码，设置好数据集位置后，可直接于colab平台运行，或安装好相关包后于本机运行。
+    - 'improved_code.py': 最终优化方法的代码，设置好数据集位置后，可直接于colab平台运行，或安装好相关包后于本机运行。
 
     
 
